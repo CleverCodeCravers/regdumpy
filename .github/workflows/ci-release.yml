@@ -1,0 +1,66 @@
+# Continuous integration and automatic Windows release for regdumpy
+
+name: CI and Release
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build and Test (Ubuntu)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build & test
+        run: cargo test --all --verbose
+
+  release:
+    name: Build Windows Release & Publish
+    runs-on: windows-latest
+    needs: test
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build release binary (MSVC)
+        run: cargo build --release --locked
+
+      - name: Set timestamp tag
+        id: set_tag
+        shell: pwsh
+        run: |
+          $tag = (Get-Date -Date (Get-Date).ToUniversalTime() -Format "yyyy-MM-dd-HH-mm-ss")
+          echo "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.set_tag.outputs.tag }}
+          name: ${{ steps.set_tag.outputs.tag }}
+          files: target/release/regdumpy.exe
+          draft: false
+          prerelease: false
