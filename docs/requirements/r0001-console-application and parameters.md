@@ -22,3 +22,4 @@
 - if you can, write unit tests inside the code
 - use the compiler and the unit tests to make sure the application can be built and works as expected.
 
+- when you are finished, update README.md with all necessary stuff for a very good github README
