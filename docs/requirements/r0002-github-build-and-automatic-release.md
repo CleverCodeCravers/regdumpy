@@ -4,3 +4,4 @@
 - If everything builds and tests fine, please auto-generate a release on github that is named after the current date and time.
 - Make a release build for windows available.
 
+- Please note that this application is windows only. A build workflow should be executed on a windows container.

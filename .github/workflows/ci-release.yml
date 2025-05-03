@@ -9,8 +9,8 @@ on:
 
 jobs:
   test:
-    name: Build and Test (Ubuntu)
-    runs-on: ubuntu-latest
+    name: Build and Test (Windows)
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
