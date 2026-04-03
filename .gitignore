@@ -1,1 +1,12 @@
 /target
+*.exe
+*.pdb
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+Thumbs.db
+Desktop.ini
+*.jsonl

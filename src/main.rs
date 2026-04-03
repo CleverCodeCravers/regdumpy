@@ -1,6 +1,6 @@
-use std::path::PathBuf;
-use clap::Parser;
 use anyhow::Result;
+use clap::Parser;
+use std::path::PathBuf;
 
 use regdumpy::dumper::dump_registry;
 
