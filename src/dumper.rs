@@ -79,7 +79,7 @@ fn recurse_key<W: Write>(key: &RegKey, path: &str, writer: &mut W) -> Result<()>
 }
 
 fn decode_utf16le(bytes: &[u8]) -> Option<String> {
-    if bytes.len() % 2 != 0 {
+    if !bytes.len().is_multiple_of(2) {
         return None;
     }
     let wide: Vec<u16> = bytes
